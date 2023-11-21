@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Feed() {
   const [jobs, setJobs] = useState(null);
+  const [userInput, setUserInput] = useState("");
 
   useEffect(() => {
     const getJobDetail = async () => {
-      const apiUrl = "https://www.reed.co.uk/api/1.0/search?keywords=software";
-      const username = "ca04fb35-9dae-499a-805f-f35d79495551";
-      const password = "";
-      const base64Credentials = btoa(`${username}:${password}`);
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Basic ${base64Credentials}`,
-          "Content-Type": "application/json",
-          // Add any other headers your API may require
-        },
-      });
-      const data = await response.json();
-      console.log(data.results);
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/jobs?keyword=software"
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
     getJobDetail();
   }, []);
@@ -46,9 +48,12 @@ function Feed() {
           </div>
           <input
             type="search"
-            id="default-search"
+            value={userInput}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setUserInput(e.target.value)
+            }
             className="block w-full p-4 ps-10 text-sm text-gray-900 border-none appearance-none rounded-lg bg-gray-100"
-            placeholder="Search Mockups, Logos..."
+            placeholder="Software Engineer, full stack developer"
           />
           <button
             type="submit"
