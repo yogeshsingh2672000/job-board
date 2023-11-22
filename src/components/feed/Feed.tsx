@@ -28,8 +28,8 @@ function Feed(props: any) {
 
       const data = await response.json();
       data.sort((a: any, b: any) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
+        const dateA = parseDate(a.date);
+        const dateB = parseDate(b.date);
 
         return dateB.getTime() - dateA.getTime();
       });

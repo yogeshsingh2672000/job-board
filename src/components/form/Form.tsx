@@ -14,29 +14,76 @@ function Form(props: jobProp | any) {
     file: null as File | null,
   });
   const [isSubmit, setIsSubmit] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobile: "",
+    file: "",
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setFormData({ ...formData, file });
   };
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateMobile = (mobile: string): boolean => {
+    const mobileRegex = /^\d{10}$/;
+    return mobileRegex.test(mobile);
+  };
+
   const handleSubmit = () => {
-    if (
-      formData.firstName === "" ||
-      formData.lastName === "" ||
-      formData.email === "" ||
-      formData.mobile === "" ||
-      formData.file === null
-    ) {
-      alert("All fields are required");
-    } else {
+    let isValid = true;
+    const errors = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      mobile: "",
+      file: "",
+    };
+
+    if (formData.firstName === "") {
+      errors.firstName = "First name is required";
+      isValid = false;
+    }
+
+    if (formData.lastName === "") {
+      errors.lastName = "Last name is required";
+      isValid = false;
+    }
+
+    if (formData.email === "") {
+      errors.email = "Email is required";
+      isValid = false;
+    } else if (!validateEmail(formData.email)) {
+      errors.email = "Invalid email format";
+      isValid = false;
+    }
+
+    if (formData.mobile === "") {
+      errors.mobile = "Mobile is required";
+      isValid = false;
+    } else if (!validateMobile(formData.mobile)) {
+      errors.mobile = "Invalid mobile number format";
+      isValid = false;
+    }
+
+    if (formData.file === null) {
+      errors.file = "Resume is required";
+      isValid = false;
+    }
+
+    setValidationErrors(errors);
+
+    if (isValid) {
       setIsSubmit(true);
     }
   };
-
-  useEffect(() => {
-    console.log();
-  });
 
   return (
     <>
@@ -64,12 +111,12 @@ function Form(props: jobProp | any) {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setFormData({ ...formData, firstName: e.target.value })
                   }
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
                   placeholder=" "
                 />
                 <label
                   htmlFor="floating_first_name"
-                  className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   First name
                 </label>
@@ -142,6 +189,14 @@ function Form(props: jobProp | any) {
                   Resume
                 </label>
               </div>
+            </div>
+            <div className="py-4">
+              {validationErrors.firstName != "" ||
+              validationErrors.lastName != "" ||
+              validationErrors.email ||
+              validationErrors.mobile != ""
+                ? "Fill all the details properly"
+                : ""}
             </div>
             <button
               type="button"
