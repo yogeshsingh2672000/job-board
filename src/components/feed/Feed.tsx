@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 function Feed(props: any) {
   const { setJobId, jobListings, setJobListings } = props;
-  const [userInput, setUserInput] = useState<string>("Software Developer");
+  const [userInput, setUserInput] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentDate] = useState(new Date());
   const searchRef = useRef<HTMLInputElement>(null);
@@ -38,10 +38,6 @@ function Feed(props: any) {
       console.error("Error fetching data:", error);
     }
   };
-
-  useEffect(() => {
-    listJobs(userInput);
-  }, []);
 
   const handleSearch = async (e: any) => {
     if (e.keyCode === 13 && searchRef.current === document.activeElement) {
@@ -83,7 +79,7 @@ function Feed(props: any) {
               setUserInput(e.target.value)
             }
             className="block w-full p-4 ps-10 text-sm text-gray-900 border-none appearance-none rounded-lg bg-gray-100"
-            placeholder="Software Engineer, full stack developer"
+            placeholder="Software Engineer, full stack developer, React, Node"
           />
           <button
             onClick={handleSearch}
