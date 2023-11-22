@@ -3,7 +3,7 @@ import Form from "../components/form/Form";
 import Feed from "../components/feed/Feed";
 import JobDetails from "../components/jobDetail/JobDetails";
 
-function Layout() {
+function Layout(props: any) {
   const [jobId, setJobId] = useState<number | null>(null);
   const [jobTitle, setJobTitle] = useState<string | null>(null);
   const [isApplying, setIsApplying] = useState(false);
@@ -12,7 +12,7 @@ function Layout() {
     <>
       {!isApplying ? (
         jobId === null ? (
-          <Feed setJobId={setJobId} />
+          <Feed setJobId={setJobId} {...props} />
         ) : (
           <JobDetails
             jobId={jobId}

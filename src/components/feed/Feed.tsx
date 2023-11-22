@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 function Feed(props: any) {
-  const { setJobId } = props;
-  const [jobList, setJobList] = useState<any>(null);
+  const { setJobId, jobListings, setJobListings } = props;
   const [userInput, setUserInput] = useState("");
   const [currentDate] = useState(new Date());
 
@@ -32,7 +31,7 @@ function Feed(props: any) {
 
         return dateB.getTime() - dateA.getTime();
       });
-      setJobList(data);
+      setJobListings(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -78,10 +77,10 @@ function Feed(props: any) {
           </button>
         </div>
       </div>
-      {jobList != null ? (
+      {jobListings != null ? (
         <div className="p-8 bg-gray-100 rounded-xl grid grid-cols-1 gap-4">
-          {jobList != null &&
-            jobList.map((item: any, index: number) => {
+          {jobListings != null &&
+            jobListings.map((item: any, index: number) => {
               const postedDate = parseDate(item.date);
               const differenceInDays = Math.floor(
                 (currentDate.getTime() - postedDate.getTime()) /
