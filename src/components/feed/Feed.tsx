@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 function Feed(props: any) {
   const { setJobId, jobListings, setJobListings } = props;
   const [userInput, setUserInput] = useState("Software Developer");
   const [currentDate] = useState(new Date());
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const parseDate = (dateString: string) => {
     const [day, month, year] = dateString.split("/");
@@ -41,6 +42,12 @@ function Feed(props: any) {
     listJobs(userInput);
   }, []);
 
+  const handleSearch = (e: any) => {
+    if (e.keyCode === 13 && searchRef.current === document.activeElement) {
+      listJobs(userInput);
+    }
+  };
+
   return (
     <div className="p-8">
       <div className="flex gap-2 justify-evenly items-center mb-8">
@@ -64,8 +71,10 @@ function Feed(props: any) {
             </svg>
           </div>
           <input
+            ref={searchRef}
             type="search"
             value={userInput}
+            onKeyDown={handleSearch}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setUserInput(e.target.value)
             }
@@ -73,7 +82,7 @@ function Feed(props: any) {
             placeholder="Software Engineer, full stack developer"
           />
           <button
-            onClick={() => listJobs(userInput)}
+            onClick={handleSearch}
             type="submit"
             className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
           >
@@ -81,7 +90,7 @@ function Feed(props: any) {
           </button>
         </div>
       </div>
-      {jobListings != null ? (
+      {jobListings != null && (
         <div className="p-8 bg-gray-100 rounded-xl grid grid-cols-1 gap-4">
           {jobListings != null &&
             jobListings.map((item: any, index: number) => {
@@ -90,10 +99,6 @@ function Feed(props: any) {
                 (currentDate.getTime() - postedDate.getTime()) /
                   (1000 * 60 * 60 * 24)
               );
-              if (!differenceInDays) {
-                const time = postedDate.getTime();
-                console.log(time, differenceInDays);
-              }
 
               return (
                 <div
@@ -128,8 +133,6 @@ function Feed(props: any) {
               );
             })}
         </div>
-      ) : (
-        <div className="flex justify-center items-center">Loading...</div>
       )}
     </div>
   );
