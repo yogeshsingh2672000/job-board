@@ -95,7 +95,7 @@ function Feed(props: any) {
                 <div
                   onClick={() => setJobId(item.jobId)}
                   key={index}
-                  className="grid grid-cols-3 bg-gray-50 p-4 rounded cursor-pointer"
+                  className="grid grid-cols-3 bg-gray-50 p-4 rounded cursor-pointer shadow hover:shadow-lg transition-all duration-300 ease-in-out"
                 >
                   <div className="col-span-2">
                     <div className="">
