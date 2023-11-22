@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 function Feed(props: any) {
   const { setJobId, jobListings, setJobListings } = props;
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState("Software Developer");
   const [currentDate] = useState(new Date());
 
   const parseDate = (dateString: string) => {
@@ -36,6 +36,10 @@ function Feed(props: any) {
       console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(() => {
+    listJobs(userInput);
+  }, []);
 
   return (
     <div className="p-8">
@@ -125,7 +129,7 @@ function Feed(props: any) {
             })}
         </div>
       ) : (
-        <div className="flex justify-center items-center">Search</div>
+        <div className="flex justify-center items-center">Loading...</div>
       )}
     </div>
   );
