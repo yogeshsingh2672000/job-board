@@ -21,7 +21,6 @@ function JobDetails(props: any) {
 
   useEffect(() => {
     getJobDetail(jobId);
-    console.log(JobDetails);
   }, []);
 
   const handleApply = () => {
