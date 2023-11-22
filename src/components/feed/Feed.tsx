@@ -1,33 +1,47 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
-function Feed() {
-  const [jobs, setJobs] = useState(null);
+function Feed(props: any) {
+  const { setJobId } = props;
+  const [jobList, setJobList] = useState<any>(null);
   const [userInput, setUserInput] = useState("");
+  const [currentDate] = useState(new Date());
 
-  useEffect(() => {
-    const getJobDetail = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:3001/api/jobs?keyword=software"
-        );
+  const parseDate = (dateString: string) => {
+    const [day, month, year] = dateString.split("/");
+    return new Date(
+      parseInt(year, 10),
+      parseInt(month, 10) - 1,
+      parseInt(day, 10)
+    );
+  };
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+  const listJobs = async (keyword: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/jobs?keyword=${keyword}`
+      );
 
-        const data = await response.json();
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
-    getJobDetail();
-  }, []);
+
+      const data = await response.json();
+      data.sort((a: any, b: any) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+
+        return dateB.getTime() - dateA.getTime();
+      });
+      setJobList(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   return (
     <div className="p-8">
       <div className="flex gap-2 justify-evenly items-center mb-8">
-        <div className="w-1/4 md:w-[150px]">Search by language</div>
+        <div className="w-1/4 md:w-[150px]">Search by role</div>
         <div className="relative w-3/4">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
@@ -56,6 +70,7 @@ function Feed() {
             placeholder="Software Engineer, full stack developer"
           />
           <button
+            onClick={() => listJobs(userInput)}
             type="submit"
             className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
           >
@@ -63,7 +78,56 @@ function Feed() {
           </button>
         </div>
       </div>
-      <div className="p-8">Feed</div>
+      {jobList != null ? (
+        <div className="p-8 bg-gray-100 rounded-xl grid grid-cols-1 gap-4">
+          {jobList != null &&
+            jobList.map((item: any, index: number) => {
+              const postedDate = parseDate(item.date);
+              const differenceInDays = Math.floor(
+                (currentDate.getTime() - postedDate.getTime()) /
+                  (1000 * 60 * 60 * 24)
+              );
+              if (!differenceInDays) {
+                const time = postedDate.getTime();
+                console.log(time, differenceInDays);
+              }
+
+              return (
+                <div
+                  onClick={() => setJobId(item.jobId)}
+                  key={index}
+                  className="grid grid-cols-3 bg-gray-50 p-4 rounded cursor-pointer"
+                >
+                  <div className="col-span-2">
+                    <div className="">
+                      <span className="text-gray-600 text-sm">
+                        Company Name:
+                      </span>{" "}
+                      {item.employerName}
+                    </div>
+                    <div className="">
+                      <span className="text-gray-600 text-sm">Position:</span>{" "}
+                      {item.jobTitle}
+                    </div>
+                    <div className="">
+                      <span className="text-gray-600 text-sm">Location:</span>{" "}
+                      {item.locationName}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-xs flex justify-center items-center">
+                      {isNaN(differenceInDays)
+                        ? "Posted recently"
+                        : `Posted ${differenceInDays} days ago`}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center">Search</div>
+      )}
     </div>
   );
 }

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface jobProp {
-  job: string;
+  jobTitle: string | null;
 }
 
 function Form(props: jobProp) {
-  const { job } = props;
+  const { jobTitle } = props;
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -34,13 +34,17 @@ function Form(props: jobProp) {
     }
   };
 
+  useEffect(() => {
+    console.log();
+  });
+
   return (
     <>
       {!isSubmit ? (
         <div className="h-full flex justify-center items-center">
           <div className="max-w-md mx-auto bg-gray-100 p-8 rounded-xl">
             <div className="mb-5 text-gray-500">
-              Applying to: <span className="text-black">{job}</span>
+              Applying to: <span className="text-black">{jobTitle}</span>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
               <div className="relative z-0 w-full mb-5 group">
@@ -143,7 +147,7 @@ function Form(props: jobProp) {
           <div className="max-w-md mx-auto bg-gray-100 p-8 rounded-xl">
             <div className="mb-5 text-gray-500">
               Application submitted for:{" "}
-              <span className="text-black">{job}✅</span>
+              <span className="text-black">{jobTitle}✅</span>
             </div>
             <div className="grid md:grid-cols-2 md:gap-6">
               <div className="relative z-0 w-full mb-5 group">
