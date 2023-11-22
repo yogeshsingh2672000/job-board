@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 function JobDetails(props: any) {
-  const { jobId, setIsApplying, setJobTitle } = props;
+  const { jobId, setIsApplying, setJobTitle, setJobId } = props;
   const [JobDetails, setJobDetails] = useState<any>(null);
 
   const getJobDetail = async (id: number) => {
@@ -30,9 +30,17 @@ function JobDetails(props: any) {
   };
 
   return (
-    <>
+    <div>
+      <button
+        onClick={() => setJobId(null)}
+        className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300"
+      >
+        <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+          {`<-`}Back
+        </span>
+      </button>
       {JobDetails && (
-        <div className="flex flex-col items-center gap-4 py-12 px-8">
+        <div className="flex flex-col items-center gap-4 pb-12 px-8">
           <div className="text-3xl">{JobDetails.jobTitle}</div>
           <div className="flex flex-col md:flex-row gap-2 md:gap-6 items-center">
             <div>
@@ -69,7 +77,7 @@ function JobDetails(props: any) {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

@@ -4,8 +4,8 @@ interface jobProp {
   jobTitle: string | null;
 }
 
-function Form(props: jobProp) {
-  const { jobTitle } = props;
+function Form(props: jobProp | any) {
+  const { jobTitle, setIsApplying } = props;
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -43,6 +43,16 @@ function Form(props: jobProp) {
       {!isSubmit ? (
         <div className="h-full flex justify-center items-center">
           <div className="max-w-md mx-auto bg-gray-100 p-8 rounded-xl">
+            <button
+              onClick={() => {
+                setIsApplying(false);
+              }}
+              className="relative inline-flex items-center justify-center p-0.5 mb-8 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300"
+            >
+              <span className="relative px-5 py-1.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                {`<-`}Back
+              </span>
+            </button>
             <div className="mb-5 text-gray-500">
               Applying to: <span className="text-black">{jobTitle}</span>
             </div>

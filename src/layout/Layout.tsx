@@ -18,10 +18,11 @@ function Layout() {
             jobId={jobId}
             setIsApplying={setIsApplying}
             setJobTitle={setJobTitle}
+            setJobId={setJobId}
           />
         )
       ) : (
-        <Form jobTitle={jobTitle} />
+        <Form jobTitle={jobTitle} setIsApplying={setIsApplying} />
       )}
     </>
   );
