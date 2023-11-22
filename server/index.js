@@ -10,7 +10,7 @@ const port = 3001;
 app.use(express.json());
 app.use(cors());
 
-const username = process.env.REACT_APP_API_KEY;
+const username = "ca04fb35-9dae-499a-805f-f35d79495551";
 const password = "";
 
 app.get("/api/jobs", async (req, res) => {
