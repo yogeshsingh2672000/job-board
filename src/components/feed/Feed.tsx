@@ -19,7 +19,7 @@ function Feed(props: any) {
   const listJobs = async (keyword: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/jobs?keyword=${keyword}`
+        `https://job-board-server-5fn4.onrender.com/api/jobs?keyword=${keyword}`
       );
 
       if (!response.ok) {

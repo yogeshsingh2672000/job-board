@@ -6,7 +6,9 @@ function JobDetails(props: any) {
 
   const getJobDetail = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/job/${id}`);
+      const response = await fetch(
+        `https://job-board-server-5fn4.onrender.com/api/job/${id}`
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
