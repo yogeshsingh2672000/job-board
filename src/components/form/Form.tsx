@@ -82,6 +82,7 @@ function Form(props: jobProp | any) {
 
     if (isValid) {
       setIsSubmit(true);
+      console.log("Hi console, Application details are: ", formData);
     }
   };
 
