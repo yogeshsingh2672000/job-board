@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const btoa = require("btoa");
+require("dotenv").config();
 // const fetch = require("node-fetch");
 
 const app = express();
@@ -9,7 +10,7 @@ const port = 3001;
 app.use(express.json());
 app.use(cors());
 
-const username = "ca04fb35-9dae-499a-805f-f35d79495551";
+const username = process.env.REACT_APP_API_KEY;
 const password = "";
 
 app.get("/api/jobs", async (req, res) => {
