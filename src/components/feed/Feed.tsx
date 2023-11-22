@@ -19,11 +19,8 @@ function Feed(props: any) {
   const listJobs = async (keyword: string) => {
     try {
       const response = await fetch(
-        `https://job-board-sable.vercel.app:3001/api/jobs?keyword=${keyword}`
+        `http://localhost:3001/api/jobs?keyword=${keyword}`
       );
-      // const response = await fetch(
-      //   `http://localhost:3001/api/jobs?keyword=${keyword}`
-      // );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
