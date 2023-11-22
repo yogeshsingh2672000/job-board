@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 
 function Feed(props: any) {
   const { setJobId, jobListings, setJobListings } = props;
-  const [userInput, setUserInput] = useState("Software Developer");
+  const [userInput, setUserInput] = useState<string>("Software Developer");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentDate] = useState(new Date());
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -42,10 +43,13 @@ function Feed(props: any) {
     listJobs(userInput);
   }, []);
 
-  const handleSearch = (e: any) => {
+  const handleSearch = async (e: any) => {
     if (e.keyCode === 13 && searchRef.current === document.activeElement) {
-      listJobs(userInput);
+      setJobListings(null);
+      setIsLoading(true);
+      await listJobs(userInput);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -90,6 +94,12 @@ function Feed(props: any) {
           </button>
         </div>
       </div>
+      {isLoading === true ? (
+        <div className="flex justify-center items-center">Loading...</div>
+      ) : (
+        ""
+      )}
+
       {jobListings != null && (
         <div className="p-8 bg-gray-100 rounded-xl grid grid-cols-1 gap-4">
           {jobListings != null &&
