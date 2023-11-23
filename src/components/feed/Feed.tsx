@@ -50,7 +50,7 @@ function Feed(props: any) {
 
   return (
     <div className="p-8">
-      <div className="flex gap-2 justify-evenly items-center mb-8">
+      <div className="flex flex-col md:flex-row gap-2 justify-evenly items-center mb-8">
         <div className="w-1/4 md:w-[150px]">Search by role</div>
         <div className="relative w-3/4">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

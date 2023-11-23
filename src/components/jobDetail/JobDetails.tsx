@@ -43,7 +43,7 @@ function JobDetails(props: any) {
       {JobDetails && (
         <div className="flex flex-col items-center gap-4 pb-12 px-8 p-6 bg-gray-100 rounded-xl">
           <div className="text-3xl">{JobDetails.jobTitle}</div>
-          <div className="flex flex-col md:flex-row gap-2 md:gap-6 items-center">
+          <div className="flex flex-col md:flex-row gap-2 md:gap-6 items-start md:items-center">
             <div>
               <span className="text-gray-400 font-bold">Company: </span>
               {JobDetails.employerName}
