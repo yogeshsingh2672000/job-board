@@ -5,7 +5,6 @@ import JobDetails from "../components/jobDetail/JobDetails";
 
 function Layout(props: any) {
   const [jobId, setJobId] = useState<number | null>(null);
-  const [jobTitle, setJobTitle] = useState<string | null>(null);
   const [isApplying, setIsApplying] = useState(false);
 
   return (
@@ -17,12 +16,11 @@ function Layout(props: any) {
           <JobDetails
             jobId={jobId}
             setIsApplying={setIsApplying}
-            setJobTitle={setJobTitle}
             setJobId={setJobId}
           />
         )
       ) : (
-        <Form jobTitle={jobTitle} setIsApplying={setIsApplying} />
+        <Form setIsApplying={setIsApplying} />
       )}
     </>
   );

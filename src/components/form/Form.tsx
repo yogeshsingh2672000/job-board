@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { validateEmail, validateMobile } from "../../utilsFunctions";
 
 interface jobProp {
   jobTitle: string | null;
 }
 
 function Form(props: jobProp | any) {
-  const { jobTitle, setIsApplying } = props;
+  const jobDetails = useSelector((state: any) => state.selectedJob);
+  const { setIsApplying } = props;
   const [formData, setFormData] = useState({
+    jobId: jobDetails.jobId,
     firstName: "",
     lastName: "",
     email: "",
     mobile: "",
     cover: "",
     file: null as File | null,
+    jobTitle: jobDetails.jobTitle,
   });
   const [isSubmit, setIsSubmit] = useState(false);
   const [validationErrors, setValidationErrors] = useState({
@@ -26,16 +31,6 @@ function Form(props: jobProp | any) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setFormData({ ...formData, file });
-  };
-
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validateMobile = (mobile: string): boolean => {
-    const mobileRegex = /^\d{10}$/;
-    return mobileRegex.test(mobile);
   };
 
   const handleSubmit = () => {
@@ -103,7 +98,8 @@ function Form(props: jobProp | any) {
           </button>
           <div className="mb-5 text-gray-500">
             <div>
-              Applying to: <span className="text-black">{jobTitle}</span>
+              Applying to:{" "}
+              <span className="text-black">{jobDetails.jobTitle}</span>
             </div>
           </div>
           <div className="grid md:grid-cols-2 md:gap-6">
