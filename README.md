@@ -7,3 +7,10 @@ Install job-board with npm
   npm install
   npm run dev
 ```
+
+## Technology Used
+
+- React
+- Redux
+- React Router Dom
+- Axios
