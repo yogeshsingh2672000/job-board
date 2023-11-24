@@ -23,7 +23,7 @@ const listJobs = async (keyword: string) => {
   }
 };
 
-const getJobDetail = async (id: number) => {
+const getJobDetail = async (id: string) => {
   try {
     const response = await fetch(
       `https://job-board-server-5fn4.onrender.com/api/job/${id}`

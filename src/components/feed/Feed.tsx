@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setJobs } from "../../redux/action/jobAction";
 import { listJobs, parseDate } from "../../apiHelper";
 
-function Feed(props: any) {
-  const { setJobId } = props;
+function Feed() {
   const jobListings = useSelector((state: any) => state.allJob);
   const dispatch = useDispatch();
   const [userInput, setUserInput] = useState<string>("");
@@ -15,7 +15,9 @@ function Feed(props: any) {
   const handleSearch = async () => {
     setIsLoading(true);
     try {
-      const data = await listJobs(userInput);
+      const data = await listJobs(
+        userInput === "" ? "Software Developer" : userInput
+      );
       dispatch(setJobs(data));
     } catch (error) {
       console.log("error in search api", error);
@@ -23,6 +25,10 @@ function Feed(props: any) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
 
   const handleEnter = async (e: any) => {
     if (e.keyCode === 13 && searchRef.current === document.activeElement) {
@@ -86,8 +92,8 @@ function Feed(props: any) {
                 );
 
                 return (
-                  <div
-                    onClick={() => setJobId(item.jobId)}
+                  <Link
+                    to={`/job/${item.jobId}`}
                     key={index}
                     className="grid grid-cols-3 bg-gray-50 p-4 rounded cursor-pointer shadow hover:shadow-lg transition-all duration-300 ease-in-out"
                   >
@@ -114,7 +120,7 @@ function Feed(props: any) {
                           : `Posted ${differenceInDays} days ago`}
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
           </div>
