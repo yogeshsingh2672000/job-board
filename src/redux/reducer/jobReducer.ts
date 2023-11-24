@@ -78,4 +78,21 @@ const selectedJob = (
   }
 };
 
-export { jobReducer, selectedJob };
+interface SearchQuery {
+  type: string;
+  payload: string;
+}
+
+const searchQuery = (
+  state: string = "Software Developer",
+  { type, payload }: SearchQuery
+) => {
+  switch (type) {
+    case "QUERY":
+      return payload;
+    default:
+      return state;
+  }
+};
+
+export { jobReducer, selectedJob, searchQuery };

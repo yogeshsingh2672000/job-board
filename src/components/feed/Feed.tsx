@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setJobs } from "../../redux/action/jobAction";
+import { setJobs, setSearchQuery } from "../../redux/action/jobAction";
 import { listJobs, parseDate } from "../../apiHelper";
 
 function Feed() {
-  const jobListings = useSelector((state: any) => state.allJob);
+  const { allJobs, searchQuery } = useSelector((state: any) => state);
   const dispatch = useDispatch();
-  const [userInput, setUserInput] = useState<string>("");
+  const [userInput, setUserInput] = useState<string>(searchQuery);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentDate] = useState(new Date());
   const searchRef = useRef<HTMLInputElement>(null);
@@ -15,9 +15,7 @@ function Feed() {
   const handleSearch = async () => {
     setIsLoading(true);
     try {
-      const data = await listJobs(
-        userInput === "" ? "Software Developer" : userInput
-      );
+      const data = await listJobs(userInput);
       dispatch(setJobs(data));
     } catch (error) {
       console.log("error in search api", error);
@@ -27,13 +25,22 @@ function Feed() {
   };
 
   useEffect(() => {
-    handleSearch();
+    if (!allJobs) {
+      console.log("empty");
+      handleSearch();
+    }
   }, []);
 
   const handleEnter = async (e: any) => {
     if (e.keyCode === 13 && searchRef.current === document.activeElement) {
       handleSearch();
     }
+  };
+
+  const handleUserInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setUserInput(value);
+    dispatch(setSearchQuery(value));
   };
 
   return (
@@ -61,11 +68,9 @@ function Feed() {
           <input
             ref={searchRef}
             type="search"
-            value={userInput}
+            value={searchQuery}
             onKeyDown={handleEnter}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setUserInput(e.target.value);
-            }}
+            onChange={handleUserInput}
             className="block w-full p-4 ps-10 text-sm text-gray-900 border-none appearance-none rounded-lg bg-gray-100"
             placeholder="Software Engineer, full stack developer, React, Node"
           />
@@ -81,10 +86,10 @@ function Feed() {
       {isLoading ? (
         <div className="flex justify-center items-center">Loading...</div>
       ) : (
-        jobListings != null && (
+        allJobs != null && (
           <div className="p-8 bg-gray-100 rounded-xl grid grid-cols-1 gap-4">
-            {jobListings != null &&
-              jobListings.map((item: any, index: number) => {
+            {allJobs != null &&
+              allJobs.map((item: any, index: number) => {
                 const postedDate = parseDate(item.date);
                 const differenceInDays = Math.floor(
                   (currentDate.getTime() - postedDate.getTime()) /

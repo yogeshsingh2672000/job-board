@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
-import { jobReducer, selectedJob } from "./jobReducer";
+import { jobReducer, selectedJob, searchQuery } from "./jobReducer";
 
 const rootReducer = combineReducers({
-  allJob: jobReducer,
+  allJobs: jobReducer,
   selectedJob: selectedJob,
+  searchQuery: searchQuery,
 });
 
 export default rootReducer;

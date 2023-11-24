@@ -6,4 +6,8 @@ const selectedJob = (payload: any) => {
   return { type: "ONE", payload: payload };
 };
 
-export { setJobs, selectedJob };
+const setSearchQuery = (payload: string) => {
+  return { type: "QUERY", payload: payload };
+};
+
+export { setJobs, selectedJob, setSearchQuery };
