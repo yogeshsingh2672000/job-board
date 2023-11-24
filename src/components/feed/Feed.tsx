@@ -26,7 +26,6 @@ function Feed() {
 
   useEffect(() => {
     if (!allJobs) {
-      console.log("empty");
       handleSearch();
     }
   }, []);

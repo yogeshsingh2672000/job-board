@@ -1,16 +1,17 @@
+import axios from "axios";
 import { parseDate } from "./utilsFunctions";
+
+const baseURL = "https://job-board-server-5fn4.onrender.com/api/";
 
 const listJobs = async (keyword: string) => {
   try {
-    const response = await fetch(
-      `https://job-board-server-5fn4.onrender.com/api/jobs?keyword=${keyword}`
-    );
+    const response = await axios.get(`${baseURL}jobs`, {
+      params: {
+        keyword: keyword,
+      },
+    });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
+    const data = response.data;
     data.sort((a: any, b: any) => {
       const dateA = parseDate(a.date);
       const dateB = parseDate(b.date);
@@ -25,15 +26,9 @@ const listJobs = async (keyword: string) => {
 
 const getJobDetail = async (id: string) => {
   try {
-    const response = await fetch(
-      `https://job-board-server-5fn4.onrender.com/api/job/${id}`
-    );
+    const response = await axios.get(`${baseURL}job/${id}`);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
+    const data = response.data;
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
