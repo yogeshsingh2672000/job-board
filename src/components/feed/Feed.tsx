@@ -43,9 +43,9 @@ function Feed() {
   };
 
   return (
-    <div className="p-8">
+    <div className="md:p-8">
       <div className="flex flex-col md:flex-row gap-2 justify-evenly items-center mb-8">
-        <div className="w-1/4 md:w-[150px]">Search by role</div>
+        <div className="w-full text-center md:w-[150px]">Search by role</div>
         <div className="relative w-3/4">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
@@ -101,7 +101,7 @@ function Feed() {
                     key={index}
                     className="grid grid-cols-3 bg-gray-50 p-4 rounded cursor-pointer shadow hover:shadow-lg transition-all duration-300 ease-in-out"
                   >
-                    <div className="col-span-2">
+                    <div className="col-span-3 md:col-span-2">
                       <div className="">
                         <span className="text-gray-600 text-sm">
                           Company Name:
@@ -117,7 +117,7 @@ function Feed() {
                         {item.locationName}
                       </div>
                     </div>
-                    <div>
+                    <div className="pt-4 w-[98px] md:pt-0 md:w-full">
                       <div className="text-xs flex justify-center items-center">
                         {isNaN(differenceInDays)
                           ? "Posted recently"
