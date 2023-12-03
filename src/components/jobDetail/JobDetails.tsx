@@ -11,6 +11,7 @@ function JobDetails() {
   const { id } = useParams<{ id?: string }>();
 
   useEffect(() => {
+    console.log(JobDetails);
     const fetch = async () => {
       try {
         setIsLoading(true);
@@ -74,12 +75,19 @@ function JobDetails() {
                 dangerouslySetInnerHTML={{ __html: JobDetails.jobDescription }}
               />
             </div>
-            <Link
-              to={`/job/${id}/apply`}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
-            >
-              Apply
-            </Link>
+            <div className="flex gap-4">
+              <div className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
+                <a target="_blank" href={JobDetails.jobUrl}>
+                  View job posting
+                </a>
+              </div>
+              <Link
+                to={`/job/${id}/apply`}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+              >
+                Apply
+              </Link>
+            </div>
           </div>
         )
       )}
