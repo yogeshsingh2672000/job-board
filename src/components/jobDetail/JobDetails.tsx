@@ -11,7 +11,6 @@ function JobDetails() {
   const { id } = useParams<{ id?: string }>();
 
   useEffect(() => {
-    console.log(JobDetails);
     const fetch = async () => {
       try {
         setIsLoading(true);
